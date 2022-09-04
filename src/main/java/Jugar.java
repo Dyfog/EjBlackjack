@@ -20,6 +20,7 @@ public class Jugar {
             case 0:
                 ArrayList<String> baraja = crearBajara();
                 Collections.shuffle(baraja);
+                leerBaraja(baraja);
                 ArrayList<String> manoJ1 = crearMano();
                 ArrayList<String> manoCPU = crearMano();
                 repartir(manoJ1, baraja, 2);
@@ -154,7 +155,7 @@ public class Jugar {
             System.out.println("quieres pedir otra carta?");
             System.out.println("0.-Si");
             System.out.println("1.-No");
-            int eleccion = eleccion();
+            int eleccion = validNum(eleccion());
             while (eleccion == 0) {
                 repartir(mano, baraja, 1);
                 leerMano(mano);
@@ -162,15 +163,16 @@ public class Jugar {
                 System.out.println("quieres pedir otra carta?");
                 System.out.println("0.-Si");
                 System.out.println("1.-No");
-                if (eleccion() == 1) {
-                    eleccion++;
-                }else {
+                eleccion = validNum(eleccion);
+                if (calcPtos(mano)>=21){
                     System.out.println("no puedes pedir mas cartas");
-                    break;
+                    eleccion++;
                 }
             }
-        }
-    }
+        }else {
+                    System.out.println("no puedes pedir mas cartas");
+                }
+            }
 
     public static void revisarBlackjack(ArrayList mano) {
         ArrayList<Character> cartas = new ArrayList<Character>();
@@ -208,7 +210,13 @@ public class Jugar {
         System.out.println("calcPtos(manoCpu) = " + calcPtos(manoCpu));
         if (calcPtos(manoJ)==calcPtos(manoCpu)){
             System.out.println("La casa gana");
-        }else if (calcPtos(manoJ)>21 && calcPtos(manoCpu)<=21){
+        } else if (calcPtos(manoJ)>21 && calcPtos(manoCpu)>21) {
+            if (calcPtos(manoJ)>calcPtos(manoCpu)){
+                System.out.println("el jugador gana");
+            }else {
+                System.out.println("la casa gana");
+            }
+        } else if (calcPtos(manoJ)>21 && calcPtos(manoCpu)<=21){
             System.out.println("la casa gana");
         } else if (calcPtos(manoJ)<=21 && calcPtos(manoCpu)>21) {
             System.out.println("El jugador gana");
@@ -233,4 +241,5 @@ public class Jugar {
             repartir(manoCpu, baraja, 1);
         }
     }
+
 }
